@@ -46,10 +46,9 @@
         android:text="Padding and background"
         android:textColor="@color/white"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@id/view"
         app:layout_constraintBottom_toTopOf="@+id/textViewGreen"
+        app:layout_constraintStart_toStartOf="@id/view"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/textViewGreen"
