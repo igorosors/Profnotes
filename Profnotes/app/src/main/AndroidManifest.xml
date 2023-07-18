@@ -12,16 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Profnotes"
         tools:targetApi="31">
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:theme="@style/SplashTheme">
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,6 +25,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
     </application>
 
 </manifest>
