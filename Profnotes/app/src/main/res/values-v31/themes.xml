@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/yellow</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splashscreen_logo</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splashscreen_branding</item>
         <item name="postSplashScreenTheme">@style/Theme.Profnotes</item>
     </style>
