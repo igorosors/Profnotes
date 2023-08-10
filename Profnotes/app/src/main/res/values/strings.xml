@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Вместе</string>
+    <string name="home_menu_label">Домой</string>
+    <string name="favourites_menu_label">Избранное</string>
+    <string name="note_menu_label">Новая заметка</string>
+    <string name="chat_menu_label">Чат</string>
+    <string name="profile_menu_label">Профиль</string>
+    <string name="error_retry">Повторить</string>
+    <string name="text_empty">Пусто</string>
+    <string name="error_no_network_title">Нет подключения к сети</string>
+    <string name="error_no_network_description">Проверьте мобильное соединение или подключение Wi-Fi</string>
+    <string name="error_something_wrong_title">Что-то пошло не так</string>
+    <string name="error_something_wrong_description">Попробуйте обновить страницу</string>
+    <string name="login_title">Вход</string>
+    <string name="login_message">Пожалуйста, войдите для продолжения</string>
+    <string name="phone_hint">Номер телефона</string>
+    <string name="password_hint">Пароль</string>
+    <string name="login_button_label">Войти</string>
+    <string name="registration_button_label">Регистрация</string>
+    <string name="button_back_to_login_label">Войти с учетной записью</string>
+    <string name="name_hint">Имя</string>
+    <string name="surname_hint">Фамилия</string>
+    <string name="registration_title">Регистрация</string>
+    <string name="registration_message">Пожалуйста, введите данные для новой учетной записи</string>
+
 </resources>

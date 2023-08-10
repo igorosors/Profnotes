@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_together_error" />
+
+    <TextView
+        android:id="@+id/textViewErrorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        tools:text="Ой-ой..." />
+
+    <TextView
+        android:id="@+id/textViewErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        tools:text="Что-то пошло не по плану" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonRepeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/dark_gray"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/error_retry"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+</LinearLayout>
