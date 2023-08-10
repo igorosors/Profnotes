@@ -1,20 +1,14 @@
 package com.example.profnotes.presentation.ui.auth.login
 
-import androidx.core.graphics.Insets
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
 import com.example.profnotes.data.model.ApiError
 import com.example.profnotes.databinding.FragmentLoginBinding
-import com.example.profnotes.presentation.extensions.doOnApplyWindowInsets
-import com.example.profnotes.presentation.extensions.fitKeyboardInsetsWithPadding
+import com.example.profnotes.presentation.extensions.applyKeyboardInsets
 import com.example.profnotes.presentation.ui.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +26,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            root.fitKeyboardInsetsWithPadding()
+            root.applyKeyboardInsets()
             buttonRegistration.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
@@ -56,8 +50,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 }
             }
         }
-
-
     }
 
     private fun showSnackbar(e: Exception) {

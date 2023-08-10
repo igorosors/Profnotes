@@ -8,9 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.data.model.LoadingState
 import com.example.profnotes.databinding.FragmentHomeBinding
-import com.example.profnotes.presentation.extensions.fitTopInsetsWithPadding
+import com.example.profnotes.presentation.extensions.applyTopInsets
 import com.example.profnotes.presentation.extensions.toPx
 import com.example.profnotes.presentation.ui.base.BaseFragment
 import com.example.profnotes.presentation.ui.views.FontAwareTextAppearanceSpan
@@ -37,11 +36,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.fitTopInsetsWithPadding()
+        binding.toolbar.applyTopInsets()
         setupViewPager()
 
         viewModel.homeLiveData.observe(viewLifecycleOwner) { state ->
-
+            binding.stateViewFlipper.setState(state)
             state.doOnSuccess {
                 viewPagerAdapter.submitList(it)
                 // Отступы между табами, должны применяться после установки элементов в view pager
@@ -56,7 +55,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
         }
 
-
         val coursesCompleted = "Пройдено\n2 курса"
         binding.textViewCoursesCompleted.text = SpannableStringBuilder(coursesCompleted).apply {
             setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
@@ -68,8 +66,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
             setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesRemaining.length, 0)
         }
-
-        binding.stateViewFlipper.setState(LoadingState.Success<Unit>(Unit))
 
     }
 

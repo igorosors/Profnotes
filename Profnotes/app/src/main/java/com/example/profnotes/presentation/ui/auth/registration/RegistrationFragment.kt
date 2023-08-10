@@ -2,17 +2,13 @@ package com.example.profnotes.presentation.ui.auth.registration
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
 import com.example.profnotes.data.model.ApiError
-import com.example.profnotes.databinding.FragmentLoginBinding
 import com.example.profnotes.databinding.FragmentRegistrationBinding
-import com.example.profnotes.presentation.extensions.fitKeyboardInsetsWithPadding
-import com.example.profnotes.presentation.ui.auth.login.LoginViewModel
+import com.example.profnotes.presentation.extensions.applyKeyboardInsets
 import com.example.profnotes.presentation.ui.base.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,13 +23,11 @@ class RegistrationFragment : BaseFragment(R.layout.fragment_registration) {
     private val binding by viewBinding(FragmentRegistrationBinding::bind)
     private val viewModel: RegistrationViewModel by viewModels()
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            root.fitKeyboardInsetsWithPadding()
+            root.applyKeyboardInsets()
             buttonLogin.setOnClickListener {
                 findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
             }

@@ -1,19 +1,14 @@
 package com.example.profnotes.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.profnotes.data.model.ApiError
 import com.example.profnotes.data.model.Course
 import com.example.profnotes.data.model.LoadingState
-import com.example.profnotes.data.remote.ApiService
 import com.example.profnotes.data.repository.CoursesRepository
-import com.example.profnotes.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel

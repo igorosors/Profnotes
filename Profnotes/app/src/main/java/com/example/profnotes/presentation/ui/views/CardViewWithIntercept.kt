@@ -5,6 +5,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.cardview.widget.CardView
 
+/**
+ * Позволяет перехватывать клики по карточке
+ * при нажатии на ресайкл внутри нее
+ */
 class CardViewWithIntercept : CardView {
 
     constructor(context: Context) : super(context)

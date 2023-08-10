@@ -30,10 +30,17 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id == R.id.loginFragment ||
-                (destination.id == R.id.registrationFragment))
+                (destination.id == R.id.registrationFragment)) {
                 binding.bottomNavigationView.visibility = View.GONE
+                binding.lineView.visibility = View.GONE
+            }
+
             else
+            {
                 binding.bottomNavigationView.visibility = View.VISIBLE
+                binding.lineView.visibility = View.VISIBLE
+            }
+
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.profnotes.presentation.ui.auth.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,7 +29,6 @@ class LoginViewModel @Inject constructor(
                 .getInstance("MD5")
             digest.update(string.toByteArray())
             val messageDigest: ByteArray = digest.digest()
-
             // Create Hex String
             val hexString = StringBuilder()
             for (aMessageDigest in messageDigest) {

@@ -2,7 +2,6 @@ package com.example.profnotes.presentation.extensions
 
 import android.graphics.Rect
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.graphics.Insets
 import androidx.core.view.*
 
@@ -14,12 +13,14 @@ fun View.doOnApplyWindowInsets(block: (View, WindowInsetsCompat, Rect) -> Window
     ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
         block(v, insets, initialPadding)
     }
-
     requestApplyInsetsWhenAttached()
 }
 
-
-fun View.fitBottomInsetsWithPadding() {
+/**
+ * Метод выставляет у вью паддинг, равный высоте нав бара.
+ * При этом помечает, что обработал bottom inset
+ */
+fun View.applyBottomInsets() {
     this.doOnApplyWindowInsets { view, insets, paddings ->
         val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         view.updatePadding(
@@ -41,7 +42,7 @@ fun View.fitBottomInsetsWithPadding() {
  * Метод выставляет у вью паддинг, равный высоте статус бара.
  * При этом помечает, что обработал top inset
  */
-fun View.fitTopInsetsWithPadding() {
+fun View.applyTopInsets() {
     this.doOnApplyWindowInsets { view, insets, paddings ->
         val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         view.updatePadding(
@@ -54,6 +55,30 @@ fun View.fitTopInsetsWithPadding() {
                 0,
                 windowInsets.right,
                 windowInsets.bottom
+            )
+        ).build()
+    }
+}
+
+/**
+ * Метод выставляет у вью паддинг сверху, равный высоте статус бара (верхнему системному инсету),
+ * и паддинг снизу, равный высоте клавиатуры.
+ * При этом помечает, что обработал top и bottom insets
+ */
+fun View.applyKeyboardInsets() {
+    this.doOnApplyWindowInsets { view, insets, paddings ->
+        val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+        view.updatePadding(
+            top = windowInsets.top + paddings.top,
+            bottom = windowInsets.bottom + paddings.bottom
+        )
+        WindowInsetsCompat.Builder().setInsets(
+            WindowInsetsCompat.Type.systemBars(),
+            Insets.of(
+                windowInsets.left,
+                0,
+                windowInsets.right,
+                0
             )
         ).build()
     }
@@ -76,27 +101,5 @@ private fun View.requestApplyInsetsWhenAttached() {
         })
     }
 }
-/**
- * Метод выставляет у вью паддинг сверху, равный высоте статус бара (верхнему системному инсету),
- * и паддинг снизу, равный высоте клавиатуры.
- * При этом помечает, что обработал top и bottom insets
- */
-fun View.fitKeyboardInsetsWithPadding() {
-    this.doOnApplyWindowInsets { view, insets, paddings ->
-        val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
-        view.updatePadding(
-            top = windowInsets.top + paddings.top,
-            bottom = windowInsets.bottom + paddings.bottom
-        )
-        WindowInsetsCompat.Builder().setInsets(
-            WindowInsetsCompat.Type.systemBars(),
-            Insets.of(
-                windowInsets.left,
-                0,
-                windowInsets.right,
-                0
-            )
-        ).build()
-    }
-}
+
 
