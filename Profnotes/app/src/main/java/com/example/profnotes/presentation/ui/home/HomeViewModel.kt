@@ -18,30 +18,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository,
     private val coursesRepository: CoursesRepository,
 ) : ViewModel() {
 
     private val _homeLiveData = MutableLiveData<LoadingState<List<Course>>>()
     val homeLiveData: LiveData<LoadingState<List<Course>>> = _homeLiveData
 
-
     fun getCourses() {
         viewModelScope.launch {
-
             try {
                 _homeLiveData.postValue(LoadingState.Loading())
                 val courses = coursesRepository.getCourses()
-
-
                 _homeLiveData.postValue(LoadingState.Success(courses))
             } catch (e: Exception) {
-
                 _homeLiveData.postValue(LoadingState.Error(e))
-
             }
         }
     }
-
-
 }

@@ -7,6 +7,7 @@ import com.example.profnotes.R
 import com.example.profnotes.databinding.ItemViewpagerBinding
 import com.example.profnotes.presentation.extensions.inflate
 import com.example.profnotes.data.model.Course
+import com.example.profnotes.presentation.extensions.toPx
 import com.example.profnotes.presentation.ui.views.FlexboxSpaceItemDecoration
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -28,11 +29,10 @@ class ViewPagerViewHolder(
                 flexDirection = FlexDirection.ROW
                 flexWrap = FlexWrap.WRAP
             }
-            val space = resources.getDimensionPixelSize(R.dimen.padding_4)
             addItemDecoration(
                 FlexboxSpaceItemDecoration(
-                    horizontalSpace = space,
-                    verticalSpace = space,
+                    horizontalSpace = 4.toPx(),
+                    verticalSpace = 4.toPx(),
                 )
             )
         }

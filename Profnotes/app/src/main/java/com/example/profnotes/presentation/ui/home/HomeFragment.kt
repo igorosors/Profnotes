@@ -5,15 +5,13 @@ import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.databinding.FragmentHomeBinding
-import com.example.profnotes.presentation.extensions.toPx
-import com.example.profnotes.data.model.Course
 import com.example.profnotes.data.model.LoadingState
+import com.example.profnotes.databinding.FragmentHomeBinding
 import com.example.profnotes.presentation.extensions.fitTopInsetsWithPadding
+import com.example.profnotes.presentation.extensions.toPx
 import com.example.profnotes.presentation.ui.base.BaseFragment
 import com.example.profnotes.presentation.ui.views.FontAwareTextAppearanceSpan
 import com.example.profnotes.presentation.ui.views.ViewPagerItemDecoration
@@ -24,12 +22,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
-
-    companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
-    }
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels()
@@ -94,7 +86,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             // TODO
         }
     }
-    private fun setupTabLayout() = with(binding){
+
+    private fun setupTabLayout() = with(binding) {
         // Отступы между табами
         for (i in 0 until tabLayout.tabCount - 1) {
             val tab = (tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)

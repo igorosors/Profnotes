@@ -1,10 +1,10 @@
 package com.example.profnotes.data.repository
 
-import com.example.profnotes.data.preferences.PreferencesStorage
+import android.content.SharedPreferences
 import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
-    private val preferencesStorage: PreferencesStorage,
+    private val sharedPreferences: SharedPreferences,
 ) : TokenRepository {
 
     companion object {
@@ -14,20 +14,20 @@ class TokenRepositoryImpl @Inject constructor(
     }
 
     override var token
-        get() = preferencesStorage.getString(KEY_TOKEN, null)
+        get() = sharedPreferences.getString(KEY_TOKEN, null)
         set(token) {
-            preferencesStorage.edit().putString(KEY_TOKEN, token).commit()
+            sharedPreferences.edit().putString(KEY_TOKEN, token).commit()
         }
 
     override var login: String?
-        get() = preferencesStorage.getString(KEY_LOGIN, null)
+        get() = sharedPreferences.getString(KEY_LOGIN, null)
         set(login) {
-            preferencesStorage.edit().putString(KEY_LOGIN, login).commit()
+            sharedPreferences.edit().putString(KEY_LOGIN, login).commit()
         }
 
     override var password: String?
-        get() = preferencesStorage.getString(KEY_PASSWORD, null)
+        get() = sharedPreferences.getString(KEY_PASSWORD, null)
         set(password) {
-            preferencesStorage.edit().putString(KEY_PASSWORD, password).commit()
+            sharedPreferences.edit().putString(KEY_PASSWORD, password).commit()
         }
 }
