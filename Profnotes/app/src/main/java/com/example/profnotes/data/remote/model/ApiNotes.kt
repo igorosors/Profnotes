@@ -6,6 +6,6 @@ class ApiNotes(
     @SerializedName("id") val id: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("content") val content: List<ApiRichText>?,
-    @SerializedName("author") val author: List<Author>,
+    @SerializedName("author") val author: List<ApiAuthor>,
     @SerializedName("date") val date: Long?,
 )

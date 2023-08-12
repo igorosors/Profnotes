@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.graphics.Insets
 import androidx.core.view.*
 
-
 fun View.doOnApplyWindowInsets(block: (View, WindowInsetsCompat, Rect) -> WindowInsetsCompat) {
 
     val initialPadding = recordInitialPaddingForView(this)

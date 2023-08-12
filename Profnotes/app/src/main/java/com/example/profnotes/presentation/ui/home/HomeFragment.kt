@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     lateinit var viewPagerAdapter: ViewPagerAdapter
 
     override fun callOperations() {
-        viewModel.getCourses()
+        viewModel.subscribeToCourses()
     }
 
 
