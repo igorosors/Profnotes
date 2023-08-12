@@ -57,12 +57,15 @@ class LoginViewModel @Inject constructor(
                 tokenRepository.token = token.token
                 tokenRepository.login = phone
                 tokenRepository.password = toMd5(password)
-
                 _loginLiveData.postValue(LoadingState.Success(Unit))
             } catch (e: Exception) {
                 _loginLiveData.postValue(LoadingState.Error(e))
             }
         }
+    }
+
+    fun isAutoLogin(): Boolean {
+        return tokenRepository.token != null
     }
 
 }

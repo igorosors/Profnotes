@@ -2,10 +2,11 @@ package com.example.profnotes.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-class ApiNotes(
+class ApiNote(
     @SerializedName("id") val id: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("content") val content: List<ApiRichText>?,
-    @SerializedName("author") val author: List<ApiAuthor>,
-    @SerializedName("date") val date: Long?,
+    @SerializedName("author") val author: ApiAuthor?,
+    @SerializedName("date") val date: String?,
+    @SerializedName("comments") val comments: List<ApiComment>?,
 )

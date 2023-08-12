@@ -22,6 +22,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val binding by viewBinding(FragmentLoginBinding::bind)
     private val viewModel: LoginViewModel by viewModels()
 
+    override fun callOperations() {
+        if(viewModel.isAutoLogin()) {
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.profnotes.data.model.LoadingState
 import com.example.profnotes.data.repository.AuthRepository
+import com.example.profnotes.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
     private val _registrationLiveData = MutableLiveData<LoadingState<Unit>>()
@@ -51,13 +53,16 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _registrationLiveData.postValue(LoadingState.Loading())
-                authRepository.registration(
+                val token = authRepository.registration(
                     name = name,
                     surname = surname,
                     avatar = "",
                     phone = phone,
                     password = toMd5(password)
                 )
+                tokenRepository.token = token.token
+                tokenRepository.login = phone
+                tokenRepository.password = password
                 _registrationLiveData.postValue(LoadingState.Success(Unit))
             } catch (e: Exception) {
                 _registrationLiveData.postValue(LoadingState.Error(e))

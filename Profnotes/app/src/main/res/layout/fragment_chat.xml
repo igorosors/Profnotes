@@ -4,16 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.profnotes.presentation.ui.views.StateViewFlipper
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="chat" />
-
-    </com.example.profnotes.presentation.ui.views.StateViewFlipper>
 
 
 </FrameLayout>

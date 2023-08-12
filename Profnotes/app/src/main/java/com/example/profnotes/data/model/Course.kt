@@ -7,5 +7,5 @@ class Course(
     val tags: List<String>,
     val status: String,
     val plannedDate: String,
-    val textList: List<RichText>,
+    val content: List<RichText>,
 )

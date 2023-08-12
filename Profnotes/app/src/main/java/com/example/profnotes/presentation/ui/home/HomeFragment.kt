@@ -32,21 +32,24 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewModel.subscribeToCourses()
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.getCourses(true)
+            binding.viewPager.currentItem = 0
+        }
         binding.toolbar.applyTopInsets()
         setupViewPager()
 
         viewModel.homeLiveData.observe(viewLifecycleOwner) { state ->
             binding.stateViewFlipper.setState(state)
             state.doOnSuccess {
+                binding.refreshLayout.isRefreshing = false
                 viewPagerAdapter.submitList(it)
                 // Отступы между табами, должны применяться после установки элементов в view pager
                 setupTabLayout()
             }
-
         }
 
         val title = "Ближайшее занятие\nСегодня в 12:00"

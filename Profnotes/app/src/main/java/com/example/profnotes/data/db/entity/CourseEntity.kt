@@ -15,5 +15,5 @@ data class CourseEntity(
     @ColumnInfo(name = "tags") val tags: String,
     @ColumnInfo(name = "status") val status: String,
     @ColumnInfo(name = "plannedDate") val plannedDate: String,
-    @ColumnInfo(name = "textList") val textList: String,
+    @ColumnInfo(name = "content") val content: String,
 )

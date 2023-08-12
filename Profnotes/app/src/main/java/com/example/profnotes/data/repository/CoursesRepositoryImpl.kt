@@ -6,7 +6,6 @@ import com.example.profnotes.data.mapper.ErrorMapper
 import com.example.profnotes.data.model.Course
 import com.example.profnotes.data.remote.ApiService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -38,4 +37,5 @@ class CoursesRepositoryImpl @Inject constructor(
     override suspend fun saveCourses(courses: List<Course>) {
         database.courseDao().saveCourse(*courses.map { courseMapper.fromModelToEntity(it) }.toTypedArray())
     }
+
 }

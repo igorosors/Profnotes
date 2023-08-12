@@ -13,5 +13,6 @@ data class NoteEntity(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "content") val content: String,
     @ColumnInfo(name = "author") val author: String,
-    @ColumnInfo(name = "date") val date: Long,
+    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "comments") val comments: String,
 )

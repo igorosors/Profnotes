@@ -20,7 +20,7 @@ class CourseMapper @Inject constructor(
             tags = course.tags.orEmpty(),
             status = course.status.orEmpty(),
             plannedDate = course.plannedDate.orEmpty(),
-            textList = course.textList.orEmpty().map { fromApiToModel(it) },
+            content = course.textList.orEmpty().map { fromApiToModel(it) },
         )
     }
 
@@ -33,7 +33,7 @@ class CourseMapper @Inject constructor(
 
     fun fromEntityToModel(course: CourseEntity): Course {
         val tagsTypeToken = object : TypeToken<List<String>>() {}.type
-        val textTypeToken = object : TypeToken<List<RichText>>() {}.type
+        val contentTypeToken = object : TypeToken<List<RichText>>() {}.type
         return Course(
             id = course.id,
             title = course.title,
@@ -41,7 +41,7 @@ class CourseMapper @Inject constructor(
             tags = gson.fromJson(course.tags, tagsTypeToken),
             status = course.status,
             plannedDate = course.plannedDate,
-            textList = gson.fromJson(course.textList, textTypeToken),
+            content = gson.fromJson(course.content, contentTypeToken),
         )
     }
 
@@ -53,7 +53,7 @@ class CourseMapper @Inject constructor(
             tags = gson.toJson(course.tags),
             status = course.status,
             plannedDate = course.plannedDate,
-            textList = gson.toJson(course.textList)
+            content = gson.toJson(course.content)
         )
     }
 }

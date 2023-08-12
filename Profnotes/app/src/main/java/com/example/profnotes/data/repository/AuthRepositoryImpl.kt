@@ -6,7 +6,6 @@ import com.example.profnotes.data.model.Token
 import com.example.profnotes.data.remote.ApiService
 import com.example.profnotes.data.remote.params.LoginParams
 import com.example.profnotes.data.remote.params.RegistrationParams
-import com.example.profnotes.data.remote.response.ErrorResponse
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -33,8 +32,8 @@ class AuthRepositoryImpl @Inject constructor(
         avatar: String?,
         phone: String,
         password: String
-    ) {
-        try {
+    ): Token {
+        return try {
             apiService.registration(
                 RegistrationParams(
                     name = name,
@@ -44,6 +43,8 @@ class AuthRepositoryImpl @Inject constructor(
                     password = password
                 )
             )
+                .data
+                .let { authMapper.fromApiToModel(it) }
         } catch (e: HttpException) {
             val apiError = errorMapper.fromApiWithGsonToModel(e)
             throw apiError

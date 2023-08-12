@@ -47,6 +47,7 @@ class RegistrationFragment : BaseFragment(R.layout.fragment_registration) {
                 state.doOnSuccess {
                     progressBar.visibility = View.GONE
                     buttonRegistration.text = getString(R.string.registration_button_label)
+                    findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
                 }
                 state.doOnError {
                     progressBar.visibility = View.GONE

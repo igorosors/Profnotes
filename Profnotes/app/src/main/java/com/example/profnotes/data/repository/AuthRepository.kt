@@ -12,5 +12,5 @@ interface AuthRepository {
         avatar: String?,
         phone: String,
         password: String,
-    )
+    ): Token
 }
