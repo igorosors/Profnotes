@@ -22,7 +22,17 @@
     <string name="surname_hint">Фамилия</string>
     <string name="registration_title">Регистрация</string>
     <string name="registration_message">Пожалуйста, введите данные для новой учетной записи</string>
-    <string name="profile_title">Вы зашли под номером\n</string>
+    <string name="profile_text_title">Вы зашли под номером\n</string>
+    <string name="profile_title">Профиль</string>
     <string name="profile_button">Выйти</string>
+    <string name="tab_local">Локально</string>
+    <string name="tab_community">Сообщество</string>
+    <string name="note_title_hint">Название</string>
+    <string name="note_content_hint">Описание заметки</string>
+    <string name="new_note_title">Новая заметка</string>
+    <string name="create_note_text">Готово</string>
+    <string name="add_title">Что добавить?</string>
+    <string name="add_text">Текст</string>
+    <string name="add_image">Ссылка на фото</string>
 
 </resources>

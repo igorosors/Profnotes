@@ -1,11 +1,9 @@
 package com.example.profnotes.data.db.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.profnotes.data.db.dao.CourseDao
-import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = CourseDao.COURSE_TABLE)
 data class CourseEntity(

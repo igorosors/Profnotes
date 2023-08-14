@@ -39,35 +39,57 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             viewModel.getCourses(true)
             binding.viewPager.currentItem = 0
         }
-        binding.toolbar.applyTopInsets()
+        binding.appBarLayout.applyTopInsets()
         setupViewPager()
 
         viewModel.homeLiveData.observe(viewLifecycleOwner) { state ->
             binding.stateViewFlipper.setState(state)
+            state.doOnLoading {
+                binding.appBarLayout.visibility = View.GONE
+            }
             state.doOnSuccess {
-                binding.refreshLayout.isRefreshing = false
+                with(binding) {
+                    refreshLayout.isRefreshing = false
+                    appBarLayout.visibility = View.VISIBLE
+                    textViewCoursesRemaining.visibility = View.VISIBLE
+                    textViewCoursesCompleted.visibility = View.VISIBLE
+                }
+
                 viewPagerAdapter.submitList(it)
                 // Отступы между табами, должны применяться после установки элементов в view pager
                 setupTabLayout()
+
+                val title = "Ближайшее занятие\nСегодня в 12:00"
+                binding.textViewToolbarTitle.text = SpannableStringBuilder(title).apply {
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 17, 0)
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
+                }
+
+                val coursesCompleted = "Пройдено\n2 курса"
+                binding.textViewCoursesCompleted.text = SpannableStringBuilder(coursesCompleted).apply {
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesCompleted.length, 0)
+                }
+
+                val coursesRemaining = "Осталось\n14 занятий"
+                binding.textViewCoursesRemaining.text = SpannableStringBuilder(coursesRemaining).apply {
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
+                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesRemaining.length, 0)
+                }
             }
-        }
+            state.doOnError {
+                with(binding) {
+                    appBarLayout.visibility = View.VISIBLE
+                    textViewCoursesRemaining.visibility = View.GONE
+                    textViewCoursesCompleted.visibility = View.GONE
 
-        val title = "Ближайшее занятие\nСегодня в 12:00"
-        binding.textViewToolbarTitle.text = SpannableStringBuilder(title).apply {
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 17, 0)
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
-        }
-
-        val coursesCompleted = "Пройдено\n2 курса"
-        binding.textViewCoursesCompleted.text = SpannableStringBuilder(coursesCompleted).apply {
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesCompleted.length, 0)
-        }
-
-        val coursesRemaining = "Осталось\n14 занятий"
-        binding.textViewCoursesRemaining.text = SpannableStringBuilder(coursesRemaining).apply {
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-            setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesRemaining.length, 0)
+                    val title = "Ближайшее занятие\nНеизвестно"
+                    binding.textViewToolbarTitle.text = SpannableStringBuilder(title).apply {
+                        setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 17, 0)
+                        setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
+                    }
+                }
+            }
         }
 
     }
