@@ -55,39 +55,56 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-        <EditText
-            android:id="@+id/editTextTitle"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:fontFamily="@font/roboto_medium"
-            android:hint="@string/note_title_hint"
-            android:textColor="@color/black"
-            android:textSize="28sp" />
+            android:layout_marginTop="20dp">
 
-        <EditText
-            android:id="@+id/editTextContent"
+            <View
+                android:id="@+id/viewDrawable"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/editTextTitle"
+                app:layout_constraintBottom_toBottomOf="@id/editTextTitle"
+                android:background="@drawable/edit_text_drawable"
+                />
+
+            <EditText
+                app:layout_constraintStart_toStartOf="@+id/viewDrawable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/editTextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@null"
+                android:fontFamily="@font/roboto_medium"
+                android:hint="@string/note_title_hint"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:background="@null"
-            android:fontFamily="@font/roboto"
-            android:hint="@string/note_content_hint"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
+            android:clipToPadding="false"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl"
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageButton
@@ -103,6 +120,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewCreateNote"
             app:tint="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:indeterminateTint="@color/white"
+            android:padding="6dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintEnd_toEndOf="@id/imageButton"
+            app:layout_constraintStart_toStartOf="@id/imageButton"
+            app:layout_constraintTop_toTopOf="@id/imageButton" />
 
         <TextView
             android:id="@+id/textViewCreateNote"

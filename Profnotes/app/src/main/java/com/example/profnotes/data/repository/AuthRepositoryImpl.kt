@@ -4,13 +4,14 @@ import com.example.profnotes.data.mapper.AuthMapper
 import com.example.profnotes.data.mapper.ErrorMapper
 import com.example.profnotes.data.model.Token
 import com.example.profnotes.data.remote.ApiService
+import com.example.profnotes.data.remote.RefreshApiService
 import com.example.profnotes.data.remote.params.LoginParams
 import com.example.profnotes.data.remote.params.RegistrationParams
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
+    private val apiService: RefreshApiService,
     private val authMapper: AuthMapper,
     private val errorMapper: ErrorMapper,
 ) : AuthRepository {

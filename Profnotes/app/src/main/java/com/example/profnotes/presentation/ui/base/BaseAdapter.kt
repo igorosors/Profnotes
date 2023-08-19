@@ -19,4 +19,5 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
         _items.addAll(newItems)
         notifyDataSetChanged()
     }
+
 }

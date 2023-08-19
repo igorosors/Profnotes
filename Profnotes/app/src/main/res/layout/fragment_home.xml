@@ -187,6 +187,7 @@
                     </LinearLayout>
 
                     <include
+                        android:id="@+id/localNote"
                         layout="@layout/item_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -208,7 +209,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="8dp"
-                            android:text="Ваши заметки"
+                            android:text="Заметки сообщества"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -227,6 +228,7 @@
                     </LinearLayout>
 
                     <include
+                        android:id="@+id/communityNote"
                         layout="@layout/item_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

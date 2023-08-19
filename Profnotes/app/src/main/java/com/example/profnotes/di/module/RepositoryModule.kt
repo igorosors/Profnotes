@@ -24,5 +24,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideNotesRepository(notesRepositoryImpl: NotesRepositoryImpl): NotesRepository
+
+    @Binds
+    abstract fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 }
 

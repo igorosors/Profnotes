@@ -2,6 +2,7 @@ package com.example.profnotes.presentation.ui.home
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import com.example.profnotes.presentation.ui.views.ViewPagerItemDecoration
 import com.example.profnotes.presentation.ui.views.ZoomOutPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,26 +38,40 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.getCourses(true)
+            viewModel.getData(true)
             binding.viewPager.currentItem = 0
         }
         binding.appBarLayout.applyTopInsets()
         setupViewPager()
+
+        binding.localNote.nameLayout.visibility = View.INVISIBLE
 
         viewModel.homeLiveData.observe(viewLifecycleOwner) { state ->
             binding.stateViewFlipper.setState(state)
             state.doOnLoading {
                 binding.appBarLayout.visibility = View.GONE
             }
-            state.doOnSuccess {
+            state.doOnSuccess { data ->
                 with(binding) {
                     refreshLayout.isRefreshing = false
                     appBarLayout.visibility = View.VISIBLE
                     textViewCoursesRemaining.visibility = View.VISIBLE
                     textViewCoursesCompleted.visibility = View.VISIBLE
+
+                    Log.d("loc notes", data.localNotes.size.toString())
+                    Log.d("cum notes", data.communityNotes.size.toString())
+                    if (data.localNotes.isNotEmpty()) {
+                        val lastNote = data.localNotes[data.localNotes.size - 1]
+                        val date = lastNote.date
+                        val calendar = Calendar.getInstance().apply { timeInMillis = date.toLong() }
+                        Log.d("loc cum", lastNote.content[0].image.toString())
+                        localNote.titleTextView.text = lastNote.title
+                        localNote.contentTextView.text = lastNote.content.getOrNull(0)?.text
+                        localNote.dateTextView.text = calendar.get(Calendar.DAY_OF_MONTH).toString() + " " + (calendar.get(Calendar.MONTH) + 1).toString()
+                    }
                 }
 
-                viewPagerAdapter.submitList(it)
+                viewPagerAdapter.submitList(data.courses)
                 // Отступы между табами, должны применяться после установки элементов в view pager
                 setupTabLayout()
 
@@ -68,13 +84,23 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 val coursesCompleted = "Пройдено\n2 курса"
                 binding.textViewCoursesCompleted.text = SpannableStringBuilder(coursesCompleted).apply {
                     setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesCompleted.length, 0)
+                    setSpan(
+                        FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle),
+                        9,
+                        coursesCompleted.length,
+                        0
+                    )
                 }
 
                 val coursesRemaining = "Осталось\n14 занятий"
                 binding.textViewCoursesRemaining.text = SpannableStringBuilder(coursesRemaining).apply {
                     setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 9, coursesRemaining.length, 0)
+                    setSpan(
+                        FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle),
+                        9,
+                        coursesRemaining.length,
+                        0
+                    )
                 }
             }
             state.doOnError {

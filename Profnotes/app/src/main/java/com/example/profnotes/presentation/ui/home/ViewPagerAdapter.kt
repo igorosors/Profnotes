@@ -16,5 +16,4 @@ class ViewPagerAdapter @Inject constructor() : BaseAdapter<Course, ViewPagerView
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
         holder.bind(getItem(position), position)
     }
-
 }

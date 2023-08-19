@@ -11,8 +11,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("register")
-    suspend fun registration(@Body params: RegistrationParams): ObjectResponse<ApiToken>
 
     @POST("auth")
     suspend fun login(@Body params: LoginParams): ObjectResponse<ApiToken>

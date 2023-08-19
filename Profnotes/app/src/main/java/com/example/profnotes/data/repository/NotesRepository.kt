@@ -7,7 +7,9 @@ interface NotesRepository {
 
     suspend fun getNotes(): List<Note>
 
-    suspend fun getNotesFlow(): Flow<List<Note>>
+    suspend fun getLocalNotesFlow(): Flow<List<Note>>
 
-    suspend fun saveNotes(notes: List<Note>)
+    suspend fun getCommunityNotesFlow(): Flow<List<Note>>
+
+    suspend fun saveNote(vararg note: Note)
 }

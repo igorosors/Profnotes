@@ -28,14 +28,19 @@ class NotesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNotesFlow(): Flow<List<Note>> {
-        return database.noteDao().getNotesFlow().map { notes ->
+    override suspend fun getLocalNotesFlow(): Flow<List<Note>> {
+        return database.noteDao().getLocalNotesFlow().map { notes ->
             notes.map { noteMapper.fromEntityToModel(it) }
         }
     }
 
-    override suspend fun saveNotes(notes: List<Note>) {
-        database.noteDao().saveNote(*notes.map { noteMapper.fromModelToEntity(it) }.toTypedArray())
+    override suspend fun getCommunityNotesFlow(): Flow<List<Note>> {
+        return database.noteDao().getCommunityNotesFlow().map { notes ->
+            notes.map { noteMapper.fromEntityToModel(it) }
+        }
     }
 
+    override suspend fun saveNote(vararg note: Note) {
+        database.noteDao().saveNote(*note.map { noteMapper.fromModelToEntity(it) }.toTypedArray())
+    }
 }

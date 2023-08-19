@@ -57,6 +57,8 @@ class NoteMapper @Inject constructor(
     fun fromModelToEntity(note: Note): NoteEntity {
         return NoteEntity(
             id = note.id,
+            isLocal = if (note.isLocal) 1 else 0,
+            isFavorite = if (note.isFavorite) 1 else 0,
             title = note.title,
             content = gson.toJson(note.content),
             author = gson.toJson(note.author),
@@ -71,6 +73,8 @@ class NoteMapper @Inject constructor(
         //val authorTypeToken = object : TypeToken<Author>() {}.type
         return Note(
             id = note.id,
+            isLocal = note.isLocal == 1,
+            isFavorite = note.isFavorite == 1,
             title = note.title,
             content = gson.fromJson(note.content, contentTypeToken),
             author = gson.fromJson(note.author, Author::class.java),

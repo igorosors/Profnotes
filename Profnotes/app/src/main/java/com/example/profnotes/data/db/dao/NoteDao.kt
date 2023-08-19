@@ -16,6 +16,9 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveNote(vararg noteEntity: NoteEntity)
 
-    @Query("select * from $NOTE_TABLE")
-    fun getNotesFlow(): Flow<List<NoteEntity>>
+    @Query("select * from $NOTE_TABLE where isLocal = 1")
+    fun getLocalNotesFlow(): Flow<List<NoteEntity>>
+
+    @Query("select * from $NOTE_TABLE where isLocal = 0")
+    fun getCommunityNotesFlow(): Flow<List<NoteEntity>>
 }

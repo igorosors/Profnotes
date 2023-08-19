@@ -14,7 +14,5 @@ class ViewPagerDetailViewHolder(
 
     fun bind(text: String) {
         binding.textView.text = text
-
-
     }
 }

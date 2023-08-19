@@ -2,6 +2,7 @@ package com.example.profnotes.presentation.ui.auth.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -23,10 +24,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
 
     override fun callOperations() {
-        if(viewModel.isAutoLogin()) {
+        if (viewModel.isAutoLogin()) {
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,27 +53,28 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 state.doOnError {
                     progressBar.visibility = View.GONE
                     buttonLogin.text = getString(R.string.login_button_label)
-                    showSnackbar(it)
+                    showError(it)
                 }
             }
         }
     }
 
-    private fun showSnackbar(e: Exception) {
+    private fun showError(e: Exception) {
         when (e) {
             is ConnectException,
             is UnknownHostException,
-            is SocketTimeoutException -> Snackbar.make(
-                requireView(), requireContext().getString(R.string.error_no_network_title), Snackbar.LENGTH_SHORT
-            ).show()
-            is ApiError -> Snackbar.make(
-                requireView(), e.message, Snackbar.LENGTH_SHORT
-            ).show()
-            else -> Snackbar.make(
-                requireView(), requireContext().getString(R.string.error_something_wrong_title), Snackbar.LENGTH_SHORT
-            ).show()
+            is SocketTimeoutException -> showSnackbar(requireContext().getString(R.string.error_no_network_title))
+            is ApiError -> showSnackbar(e.message)
+            else -> showSnackbar(requireContext().getString(R.string.error_something_wrong_description))
         }
     }
 
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            requireView(), message, Snackbar.LENGTH_SHORT
+        ).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
+        }.show()
+    }
 
 }

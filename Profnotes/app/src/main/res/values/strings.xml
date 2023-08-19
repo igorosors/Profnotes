@@ -34,5 +34,8 @@
     <string name="add_title">Что добавить?</string>
     <string name="add_text">Текст</string>
     <string name="add_image">Ссылка на фото</string>
+    <string name="failed_to_load_image">Не удалось загрузить картинку</string>
+    <string name="url_hint">http://...</string>
+    <string name="upload_image_button_text">Добавить</string>
 
 </resources>
