@@ -3,7 +3,6 @@ package com.example.profnotes.presentation.ui.note
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +33,9 @@ class NoteViewModel @Inject constructor(
     private val _imageLiveData = MutableLiveData<LoadingState<Image>>()
     val imageLiveData: LiveData<LoadingState<Image>> = _imageLiveData
 
+    private val _saveLiveData = MutableLiveData<LoadingState<Unit>>()
+    val saveLiveData: LiveData<LoadingState<Unit>> = _saveLiveData
+
     fun addText() {
         val dataList = mutableListOf<NoteData>().apply {
             addAll(_noteLiveData.value.orEmpty())
@@ -59,7 +61,6 @@ class NoteViewModel @Inject constructor(
     }
 
     fun updateItem(newText: String?, position: Int) {
-        Log.d("update", newText.toString() + " at " + position.toString())
         val dataList = mutableListOf<NoteData>().apply {
             addAll(_noteLiveData.value.orEmpty())
         }
@@ -90,36 +91,51 @@ class NoteViewModel @Inject constructor(
     }
 
     fun saveNote(type: Int, title: String) {
-        if (type == TYPE_LOCAL) {
-            viewModelScope.launch {
-                notesRepository.saveNote(
-                    Note(
-                        id = UUID.randomUUID().toString(),
-                        isLocal = true,
-                        title = title,
-                        content = dataToContent(),
-                        date = System.currentTimeMillis().toString()
-                    )
-                )
-            }
-        } else {
-            viewModelScope.launch {
-
+        if (!(title.isEmpty() && noteLiveData.value.isNullOrEmpty())) {
+            if (type == TYPE_LOCAL) {
+                viewModelScope.launch {
+                    _saveLiveData.postValue(LoadingState.Loading())
+                    try {
+                        notesRepository.saveNote(
+                            Note(
+                                id = UUID.randomUUID().toString(),
+                                isLocal = true,
+                                title = title,
+                                content = fromDataToContent(),
+                                date = System.currentTimeMillis()
+                            )
+                        )
+                        _saveLiveData.postValue(LoadingState.Success(Unit))
+                    } catch (e: Exception) {
+                        _saveLiveData.postValue(LoadingState.Error(e))
+                    }
+                }
+            } else {
+                viewModelScope.launch {
+                    _saveLiveData.postValue(LoadingState.Loading())
+                    try {
+                        val note = notesRepository.postNote(
+                            title = title,
+                            content = fromDataToContent()
+                        )
+                        notesRepository.saveNote(note)
+                        _saveLiveData.postValue(LoadingState.Success(Unit))
+                    } catch (e: Exception) {
+                        _saveLiveData.postValue(LoadingState.Error(e))
+                    }
+                }
             }
         }
     }
 
-    private fun dataToContent(): List<RichText> {
+    private fun fromDataToContent(): List<RichText> {
         val noteData = noteLiveData.value.orEmpty()
-
-        val res = noteData.map {
+        return noteData.map {
             RichText(
                 text = it.text,
                 image = it.url
             )
         }
-        Log.d("SAVE", res.toString())
-        return res
     }
 
 }

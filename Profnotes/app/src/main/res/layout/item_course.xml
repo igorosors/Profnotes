@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <com.example.profnotes.presentation.ui.views.CardViewWithIntercept xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
+    android:foreground="?selectableItemBackground"
     app:cardBackgroundColor="@color/yellow"
-    android:foreground="?selectableItemBackground">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -48,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            tools:listitem="@layout/item_viewpager_detail" />
+            tools:listitem="@layout/item_course_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

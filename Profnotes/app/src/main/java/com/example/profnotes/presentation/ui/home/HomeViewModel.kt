@@ -13,13 +13,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
 ) : ViewModel() {
 
     private val _homeLiveData = MutableLiveData<LoadingState<HomeData>>()
     val homeLiveData: LiveData<LoadingState<HomeData>> = _homeLiveData
 
-    fun subscribeToCourses() {
+    fun subscribeToData() {
         viewModelScope.launch {
             try {
                 _homeLiveData.postValue(LoadingState.Loading())

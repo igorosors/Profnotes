@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +9,8 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/yellow">
+        android:background="@color/yellow"
+        app:liftOnScrollTargetViewId="@id/scrollView">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -60,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Показать чат"
+                        android:text="@string/show_chat_action"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -70,7 +71,7 @@
                         android:layout_gravity="end"
                         android:layout_margin="12dp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Нет новых"
+                        android:text="@string/chat_state"
                         android:textColor="@color/gray"
                         android:textSize="14sp" />
 
@@ -95,6 +96,7 @@
             android:layout_height="wrap_content">
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -119,21 +121,20 @@
                             android:fontFamily="@font/roboto_medium"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="8dp"
-                            android:text="Последние курсы"
+                            android:text="@string/last_courses_label"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/textViewCourses"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:background="@drawable/right_rounded_background"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:paddingHorizontal="20dp"
                             android:paddingVertical="8dp"
-                            android:text="Все"
+                            android:text="@string/all_items_label"
                             android:textColor="@color/gray" />
                     </LinearLayout>
 
@@ -154,6 +155,7 @@
                         app:tabIndicatorHeight="0dp" />
 
                     <LinearLayout
+                        android:id="@+id/localLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -168,33 +170,33 @@
                             android:fontFamily="@font/roboto_medium"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="8dp"
-                            android:text="Ваши заметки"
+                            android:text="@string/local_notes_label"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/textViewLocalNotes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:background="@drawable/right_rounded_background"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:paddingHorizontal="20dp"
                             android:paddingVertical="8dp"
-                            android:text="Все"
+                            android:text="@string/all_items_label"
                             android:textColor="@color/gray" />
                     </LinearLayout>
 
                     <include
                         android:id="@+id/localNote"
-                        layout="@layout/item_note"
+                        layout="@layout/item_local_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="12dp" />
 
                     <LinearLayout
+                        android:id="@+id/communityLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -209,27 +211,27 @@
                             android:fontFamily="@font/roboto_medium"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="8dp"
-                            android:text="Заметки сообщества"
+                            android:text="@string/community_notes_label"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/textViewCommunityNotes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:background="@drawable/right_rounded_background"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:paddingHorizontal="20dp"
                             android:paddingVertical="8dp"
-                            android:text="Все"
+                            android:text="@string/all_items_label"
                             android:textColor="@color/gray" />
+
                     </LinearLayout>
 
                     <include
                         android:id="@+id/communityNote"
-                        layout="@layout/item_note"
+                        layout="@layout/item_community_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -237,11 +239,10 @@
 
                 </LinearLayout>
 
-
             </androidx.core.widget.NestedScrollView>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </com.example.profnotes.presentation.ui.views.StateViewFlipper>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

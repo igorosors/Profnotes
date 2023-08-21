@@ -4,6 +4,7 @@ import com.example.profnotes.data.remote.model.ApiNote
 import com.example.profnotes.data.remote.model.ApiCourse
 import com.example.profnotes.data.remote.model.ApiToken
 import com.example.profnotes.data.remote.params.LoginParams
+import com.example.profnotes.data.remote.params.NoteParams
 import com.example.profnotes.data.remote.params.RegistrationParams
 import com.example.profnotes.data.remote.response.ObjectResponse
 import retrofit2.http.Body
@@ -20,4 +21,7 @@ interface ApiService {
 
     @GET("community_notes")
     suspend fun getNotes(): ObjectResponse<List<ApiNote>>
+
+    @POST("community_notes")
+    suspend fun postNote(@Body params: NoteParams): ObjectResponse<ApiNote>
 }

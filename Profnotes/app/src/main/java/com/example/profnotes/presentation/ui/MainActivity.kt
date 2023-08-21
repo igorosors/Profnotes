@@ -1,8 +1,8 @@
 package com.example.profnotes.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.NavHostFragment
@@ -29,14 +29,12 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.loginFragment ||
-                (destination.id == R.id.registrationFragment)) {
+            if (destination.id == R.id.loginFragment ||
+                (destination.id == R.id.registrationFragment)
+            ) {
                 binding.bottomNavigationView.visibility = View.GONE
                 binding.lineView.visibility = View.GONE
-            }
-
-            else
-            {
+            } else {
                 binding.bottomNavigationView.visibility = View.VISIBLE
                 binding.lineView.visibility = View.VISIBLE
             }

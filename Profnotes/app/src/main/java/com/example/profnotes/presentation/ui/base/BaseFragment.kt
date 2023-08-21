@@ -20,8 +20,6 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
                 if (!isComplete) {
                     callOperations()
                     isComplete = true
-
-
                 }
             }
         }

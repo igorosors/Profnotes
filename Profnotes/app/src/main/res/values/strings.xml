@@ -35,7 +35,14 @@
     <string name="add_text">Текст</string>
     <string name="add_image">Ссылка на фото</string>
     <string name="failed_to_load_image">Не удалось загрузить картинку</string>
-    <string name="url_hint">http://...</string>
+    <string name="url_hint">http://…</string>
     <string name="upload_image_button_text">Добавить</string>
+    <string name="all_items_label">Все</string>
+    <string name="community_notes_label">Заметки сообщества</string>
+    <string name="local_notes_label">Ваши заметки</string>
+    <string name="last_courses_label">Последние курсы</string>
+    <string name="courses_label">Все курсы</string>
+    <string name="show_chat_action">Показать чат</string>
+    <string name="chat_state">Нет новых</string>
 
 </resources>

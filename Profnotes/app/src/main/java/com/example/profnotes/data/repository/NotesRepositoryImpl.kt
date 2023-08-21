@@ -4,7 +4,10 @@ import com.example.profnotes.data.db.AppDatabase
 import com.example.profnotes.data.mapper.ErrorMapper
 import com.example.profnotes.data.mapper.NoteMapper
 import com.example.profnotes.data.model.Note
+import com.example.profnotes.data.model.RichText
 import com.example.profnotes.data.remote.ApiService
+import com.example.profnotes.data.remote.model.ApiNote
+import com.example.profnotes.data.remote.params.NoteParams
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
@@ -38,6 +41,16 @@ class NotesRepositoryImpl @Inject constructor(
         return database.noteDao().getCommunityNotesFlow().map { notes ->
             notes.map { noteMapper.fromEntityToModel(it) }
         }
+    }
+
+    override suspend fun postNote(title: String, content: List<RichText>): Note {
+        val note = apiService.postNote(
+            NoteParams(
+                title = title,
+                content = content.map { noteMapper.fromModelToApi(it) },
+            )
+        ).data
+        return noteMapper.fromApiToModel(note)
     }
 
     override suspend fun saveNote(vararg note: Note) {

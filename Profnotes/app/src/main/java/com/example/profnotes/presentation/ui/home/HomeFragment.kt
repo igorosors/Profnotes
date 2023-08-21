@@ -2,22 +2,28 @@ package com.example.profnotes.presentation.ui.home
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
+import com.example.profnotes.data.model.HomeData
 import com.example.profnotes.databinding.FragmentHomeBinding
 import com.example.profnotes.presentation.extensions.applyTopInsets
 import com.example.profnotes.presentation.extensions.toPx
 import com.example.profnotes.presentation.ui.base.BaseFragment
+import com.example.profnotes.presentation.ui.items.ItemsFragment.Companion.COMMUNITY_NOTE_ITEM
+import com.example.profnotes.presentation.ui.items.ItemsFragment.Companion.COURSE_ITEM
+import com.example.profnotes.presentation.ui.items.ItemsFragment.Companion.LOCAL_NOTE_ITEM
 import com.example.profnotes.presentation.ui.views.FontAwareTextAppearanceSpan
 import com.example.profnotes.presentation.ui.views.ViewPagerItemDecoration
 import com.example.profnotes.presentation.ui.views.ZoomOutPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -30,22 +36,23 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     @Inject
     lateinit var viewPagerAdapter: ViewPagerAdapter
 
-    override fun callOperations() {
-        viewModel.subscribeToCourses()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.appBarLayout.applyTopInsets()
         binding.refreshLayout.setOnRefreshListener {
             viewModel.getData(true)
             binding.viewPager.currentItem = 0
         }
-        binding.appBarLayout.applyTopInsets()
         setupViewPager()
+        bindViewModel()
+    }
 
-        binding.localNote.nameLayout.visibility = View.INVISIBLE
+    override fun callOperations() {
+        viewModel.subscribeToData()
+    }
 
+    private fun bindViewModel() {
         viewModel.homeLiveData.observe(viewLifecycleOwner) { state ->
             binding.stateViewFlipper.setState(state)
             state.doOnLoading {
@@ -57,17 +64,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     appBarLayout.visibility = View.VISIBLE
                     textViewCoursesRemaining.visibility = View.VISIBLE
                     textViewCoursesCompleted.visibility = View.VISIBLE
-
-                    Log.d("loc notes", data.localNotes.size.toString())
-                    Log.d("cum notes", data.communityNotes.size.toString())
-                    if (data.localNotes.isNotEmpty()) {
-                        val lastNote = data.localNotes[data.localNotes.size - 1]
-                        val date = lastNote.date
-                        val calendar = Calendar.getInstance().apply { timeInMillis = date.toLong() }
-                        Log.d("loc cum", lastNote.content[0].image.toString())
-                        localNote.titleTextView.text = lastNote.title
-                        localNote.contentTextView.text = lastNote.content.getOrNull(0)?.text
-                        localNote.dateTextView.text = calendar.get(Calendar.DAY_OF_MONTH).toString() + " " + (calendar.get(Calendar.MONTH) + 1).toString()
+                    setupLocalNote(data)
+                    setupCommunityNote(data)
+                    textViewCourses.setOnClickListener {
+                        findNavController().navigate(
+                            HomeFragmentDirections.actionHomeFragmentToItemsFragment(COURSE_ITEM)
+                        )
                     }
                 }
 
@@ -117,7 +119,55 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             }
         }
+    }
 
+    private fun setupLocalNote(data: HomeData) = with(binding) {
+        binding.textViewLocalNotes.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToItemsFragment(LOCAL_NOTE_ITEM)
+            )
+        }
+        if (data.localNotes.isNotEmpty()) {
+            val lastNote = data.localNotes[data.localNotes.size - 1]
+            val dateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
+            val date = Date(lastNote.date)
+            localLayout.visibility = View.VISIBLE
+            localNote.root.visibility = View.VISIBLE
+            with(localNote) {
+                titleTextView.text = lastNote.title
+                contentTextView.text = lastNote.content.getOrNull(0)?.text
+                dateTextView.text = dateFormat.format(date)
+            }
+        } else {
+            localLayout.visibility = View.GONE
+            localNote.root.visibility = View.GONE
+        }
+    }
+
+    private fun setupCommunityNote(data: HomeData) = with(binding) {
+        binding.textViewCommunityNotes.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToItemsFragment(COMMUNITY_NOTE_ITEM)
+            )
+        }
+        if (data.communityNotes.isNotEmpty()) {
+            val lastNote = data.communityNotes[data.communityNotes.size - 1]
+            val author = "${lastNote.author?.name.orEmpty()} ${lastNote.author?.surname.orEmpty()}"
+            val dateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
+            val date = Date(lastNote.date)
+            communityLayout.visibility = View.VISIBLE
+            communityNote.root.visibility = View.VISIBLE
+            with(communityNote) {
+                titleTextView.text = lastNote.title
+                contentTextView.text = lastNote.content.getOrNull(0)?.text
+                textViewAuthor.text = author
+                imageViewAuthor.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.logo))
+                dateTextView.text = dateFormat.format(date)
+            }
+        } else {
+            communityLayout.visibility = View.GONE
+            communityNote.root.visibility = View.GONE
+        }
     }
 
     private fun setupViewPager() = with(binding.viewPager) {

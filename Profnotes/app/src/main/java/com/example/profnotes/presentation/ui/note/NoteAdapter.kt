@@ -1,6 +1,5 @@
 package com.example.profnotes.presentation.ui.note
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.profnotes.presentation.ui.note.model.NoteData
@@ -21,16 +20,14 @@ class NoteAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
     }
 
     fun submitList(newItems: List<NoteData>) {
         val newItem = newItems[newItems.size - 1]
         if (newItems.size > items.size) {
             items.add(newItem)
-            Log.d("adapter items after add new", items.toString())
             notifyItemInserted(items.size - 1)
-            Log.d("adapter items after notify inserted", items.toString())
 
         } else {
             // Если изменился текст, не нужно вызывать notify, чтобы не сбросить фокус
@@ -41,8 +38,6 @@ class NoteAdapter @Inject constructor() :
             items.addAll(newItems)
             if (oldUrl != newUrl) {
                 notifyItemChanged(size - 1)
-                Log.d("adapter items after notify changed", items.toString())
-
             }
         }
     }

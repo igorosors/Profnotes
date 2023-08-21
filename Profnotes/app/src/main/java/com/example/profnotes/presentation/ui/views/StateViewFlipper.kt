@@ -57,7 +57,7 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
         when {
             exception.isNetworkError -> setNetworkError()
             exception is ApiError -> setApiError(exception.message)
-            else -> setGeneralError()
+            else -> setGeneralError(exception)
 
         }
     }
@@ -69,10 +69,10 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
         )
     }
 
-    private fun setGeneralError() {
+    private fun setGeneralError(e: Exception) {
         setErrorStateContent(
             title = context.getString(R.string.error_something_wrong_title),
-            description = context.getString(R.string.error_something_wrong_description),
+            description = e.message.toString(),
         )
     }
 

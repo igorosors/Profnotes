@@ -1,6 +1,6 @@
 package com.example.profnotes.presentation.ui.note
 
-import android.util.Log
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
@@ -17,8 +17,10 @@ class NoteViewHolder(
 ) : RecyclerView.ViewHolder(parent.inflate(R.layout.item_note_data)) {
 
     private val binding by viewBinding(ItemNoteDataBinding::bind)
+    private var afterTextChangedCallback: TextWatcher? = null
 
-    fun bind(noteData: NoteData, position: Int) {
+
+    fun bind(noteData: NoteData) {
         with(binding) {
             if (noteData.text == null) {
                 editText.visibility = View.GONE
@@ -28,11 +30,10 @@ class NoteViewHolder(
             } else {
                 imageView.visibility = View.VISIBLE
             }
+            afterTextChangedCallback.let { editText.removeTextChangedListener(it) }
             editText.setText(noteData.text)
-            Log.d("after setText", noteData.text.toString() + " at pos " + position.toString())
-            editText.doAfterTextChanged { text ->
-                Log.d("DOAFTERCHANGED", "CHANGED")
-                onTextChange(text.toString(), position)
+            afterTextChangedCallback = editText.doAfterTextChanged { text ->
+                onTextChange(text.toString(), bindingAdapterPosition)
             }
             imageView.setImageBitmap(noteData.bitmap)
         }

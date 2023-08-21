@@ -1,7 +1,6 @@
 package com.example.profnotes.presentation.ui.note
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -9,13 +8,13 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
 import com.example.profnotes.data.model.LoadingState
 import com.example.profnotes.databinding.FragmentNoteBinding
 import com.example.profnotes.presentation.extensions.applyTopInsets
 import com.example.profnotes.presentation.ui.views.NoteItemDecoration
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -42,47 +41,58 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.appBarLayout.applyTopInsets()
-        applyBottomLayoutPadding(binding.recyclerView)
         setupRecycler()
         bindViewModel()
         with(binding) {
             imageButton.setOnClickListener {
                 showBottomSheet()
             }
-            textViewCreateNote.setOnClickListener {
+            textViewSave.setOnClickListener {
                 viewModel.saveNote(tabLayout.selectedTabPosition, editTextTitle.text.toString())
             }
         }
 
     }
 
-    private fun applyBottomLayoutPadding(view: View) {
-        binding.bottomLayout.doOnPreDraw {
-            view.updatePadding(bottom = it.height)
-        }
-    }
-
     private fun bindViewModel() = with(viewModel) {
         noteLiveData.observe(viewLifecycleOwner) {
-            Log.d("submit", it.toString())
             noteAdapter.submitList(it)
         }
         imageLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoadingState.Loading -> {
                     binding.imageButton.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBarInsert.visibility = View.VISIBLE
                 }
                 is LoadingState.Success -> {
                     binding.imageButton.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBarInsert.visibility = View.GONE
                     viewModel.addImage(state.data)
                 }
                 is LoadingState.Error -> {
                     binding.imageButton.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBarInsert.visibility = View.GONE
                     showSnackbar()
                 }
+            }
+        }
+        saveLiveData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is LoadingState.Loading -> {
+                    binding.textViewSave.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+                    binding.progressBarSave.visibility = View.VISIBLE
+                }
+                is LoadingState.Success -> {
+                    binding.textViewSave.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    binding.progressBarSave.visibility = View.GONE
+                    findNavController().popBackStack()
+                }
+                is LoadingState.Error -> {
+                    binding.textViewSave.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    binding.progressBarSave.visibility = View.GONE
+                    // TODO error dialog
+                }
+
             }
         }
     }
@@ -127,6 +137,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
             setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
         }.show()
     }
+
 }
 
 

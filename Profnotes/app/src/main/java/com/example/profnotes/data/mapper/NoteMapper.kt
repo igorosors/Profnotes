@@ -23,7 +23,7 @@ class NoteMapper @Inject constructor(
             title = note.title.orEmpty(),
             content = note.content.orEmpty().map { fromApiToModel(it) },
             author = fromApiToModel(note.author),
-            date = note.date.orEmpty(),
+            date = note.date?.toLongOrNull() ?: 0,
             comments = note.comments.orEmpty().map { fromApiToModel(it) }
         )
     }
@@ -70,7 +70,6 @@ class NoteMapper @Inject constructor(
     fun fromEntityToModel(note: NoteEntity): Note {
         val contentTypeToken = object : TypeToken<List<RichText>>() {}.type
         val commentsTypeToken = object : TypeToken<List<Comment>>() {}.type
-        //val authorTypeToken = object : TypeToken<Author>() {}.type
         return Note(
             id = note.id,
             isLocal = note.isLocal == 1,
@@ -80,6 +79,13 @@ class NoteMapper @Inject constructor(
             author = gson.fromJson(note.author, Author::class.java),
             date = note.date,
             comments = gson.fromJson(note.comments, commentsTypeToken)
+        )
+    }
+
+    fun fromModelToApi(richText: RichText) : ApiRichText {
+        return ApiRichText(
+            text = richText.text,
+            image = richText.image
         )
     }
 }
