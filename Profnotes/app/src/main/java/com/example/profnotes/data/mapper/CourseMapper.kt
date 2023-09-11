@@ -1,8 +1,8 @@
 package com.example.profnotes.data.mapper
 
 import com.example.profnotes.data.db.entity.CourseEntity
-import com.example.profnotes.data.model.Course
-import com.example.profnotes.data.model.RichText
+import com.example.profnotes.data.model.course.Course
+import com.example.profnotes.data.model.content.RichText
 import com.example.profnotes.data.remote.model.ApiCourse
 import com.example.profnotes.data.remote.model.ApiRichText
 import com.google.gson.Gson
@@ -27,7 +27,7 @@ class CourseMapper @Inject constructor(
     private fun fromApiToModel(richText: ApiRichText): RichText {
         return RichText(
             text = richText.text.orEmpty(),
-            image = richText.image.orEmpty()
+            url = richText.image.orEmpty()
         )
     }
 
@@ -36,6 +36,7 @@ class CourseMapper @Inject constructor(
         val contentTypeToken = object : TypeToken<List<RichText>>() {}.type
         return Course(
             id = course.id,
+            isFavorite = course.isFavorite == 1,
             title = course.title,
             description = course.description,
             tags = gson.fromJson(course.tags, tagsTypeToken),
@@ -48,6 +49,7 @@ class CourseMapper @Inject constructor(
     fun fromModelToEntity(course: Course): CourseEntity {
         return CourseEntity(
             id = course.id,
+            isFavorite = if (course.isFavorite) 1 else 0,
             title = course.title,
             description = course.description,
             tags = gson.toJson(course.tags),

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.data.model.Note
+import com.example.profnotes.data.model.note.Note
 import com.example.profnotes.databinding.ItemLocalNoteBinding
 import com.example.profnotes.presentation.extensions.inflate
 import java.text.SimpleDateFormat

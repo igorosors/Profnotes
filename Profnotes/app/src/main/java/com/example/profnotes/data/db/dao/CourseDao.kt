@@ -18,4 +18,13 @@ interface CourseDao {
 
     @Query("select * from $COURSE_TABLE")
     fun getCoursesFlow(): Flow<List<CourseEntity>>
+
+    @Query("select * from $COURSE_TABLE where title like '%' || :text || '%'")
+    fun searchCourses(text: String): Flow<List<CourseEntity>>
+
+    @Query("select * from $COURSE_TABLE where isFavorite = 1")
+    fun getFavouriteCoursesFlow(): Flow<List<CourseEntity>>
+
+    @Query("select * from $COURSE_TABLE where title like '%' || :text || '%' and isFavorite = 1")
+    fun searchFavouriteCourses(text: String): Flow<List<CourseEntity>>
 }

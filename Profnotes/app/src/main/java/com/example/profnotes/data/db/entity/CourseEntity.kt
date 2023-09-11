@@ -8,6 +8,7 @@ import com.example.profnotes.data.db.dao.CourseDao
 @Entity(tableName = CourseDao.COURSE_TABLE)
 data class CourseEntity(
     @PrimaryKey val id: String,
+    @ColumnInfo(name = "isFavorite") val isFavorite: Int = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "tags") val tags: String,

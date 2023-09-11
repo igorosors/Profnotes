@@ -44,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            tools:listitem="@layout/item_course_detail" />
+            tools:listitem="@layout/item_course_tag" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

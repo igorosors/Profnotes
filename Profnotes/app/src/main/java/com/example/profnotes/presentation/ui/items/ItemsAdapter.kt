@@ -2,9 +2,9 @@ package com.example.profnotes.presentation.ui.items
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.profnotes.data.model.Course
+import com.example.profnotes.data.model.course.Course
 import com.example.profnotes.data.model.Data
-import com.example.profnotes.data.model.Note
+import com.example.profnotes.data.model.note.Note
 import com.example.profnotes.presentation.ui.base.BaseAdapter
 import com.example.profnotes.presentation.ui.items.ItemsFragment.Companion.COMMUNITY_NOTE_ITEM
 import com.example.profnotes.presentation.ui.items.ItemsFragment.Companion.COURSE_ITEM

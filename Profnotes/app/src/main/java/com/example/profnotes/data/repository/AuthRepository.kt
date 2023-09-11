@@ -1,6 +1,6 @@
 package com.example.profnotes.data.repository
 
-import com.example.profnotes.data.model.Token
+import com.example.profnotes.data.model.auth.Token
 
 interface AuthRepository {
 

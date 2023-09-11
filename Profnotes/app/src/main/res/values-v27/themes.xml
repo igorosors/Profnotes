@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Profnotes" parent="Theme.Material3.Light.NoActionBar">
-
         <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:windowLightNavigationBar">true</item>
 

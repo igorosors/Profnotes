@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.data.model.Course
+import com.example.profnotes.data.model.course.Course
 import com.example.profnotes.databinding.ItemCourseBinding
 import com.example.profnotes.presentation.extensions.inflate
 import com.example.profnotes.presentation.ui.views.FlexboxSpaceItemDecoration

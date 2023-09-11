@@ -1,10 +1,11 @@
 package com.example.profnotes.presentation.ui.items
 
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.data.model.Note
+import com.example.profnotes.data.model.note.Note
 import com.example.profnotes.databinding.ItemCommunityNoteBinding
 import com.example.profnotes.presentation.extensions.inflate
 import java.text.SimpleDateFormat
@@ -25,7 +26,7 @@ class CommunityNotesViewHolder(
             titleTextView.text = note.title
             contentTextView.text = note.content.getOrNull(0)?.text
             textViewAuthor.text = author
-            imageViewAuthor.setImageDrawable(androidx.core.content.ContextCompat.getDrawable(parent.context, R.drawable.logo))
+            imageViewAvatar.setImageDrawable(ContextCompat.getDrawable(parent.context, R.drawable.logo))
             dateTextView.text = dateFormat.format(date)
         }
         itemView.setOnClickListener{ onItemClick(note) }

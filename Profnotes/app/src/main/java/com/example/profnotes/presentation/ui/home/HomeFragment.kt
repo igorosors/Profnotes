@@ -1,16 +1,25 @@
 package com.example.profnotes.presentation.ui.home
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.MenuItemCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.profnotes.R
-import com.example.profnotes.data.model.HomeData
+import com.example.profnotes.data.model.home.HomeData
 import com.example.profnotes.databinding.FragmentHomeBinding
 import com.example.profnotes.presentation.extensions.applyTopInsets
 import com.example.profnotes.presentation.extensions.toPx
@@ -42,10 +51,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         binding.appBarLayout.applyTopInsets()
         binding.refreshLayout.setOnRefreshListener {
             viewModel.getData(true)
-            binding.viewPager.currentItem = 0
         }
         setupViewPager()
         bindViewModel()
+        setupSearch()
     }
 
     override fun callOperations() {
@@ -60,49 +69,23 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }
             state.doOnSuccess { data ->
                 with(binding) {
+                    if (
+                        data.courses.isEmpty() &&
+                        data.localNotes.isEmpty() &&
+                        data.communityNotes.isEmpty()
+                        ) {
+                        stateViewFlipper.setEmptyState()
+                    }
+                    textViewNextLesson
+                    textViewCoursesCompleted.text = data.courses.size.toString()
+                    textViewCoursesRemaining.text = (16 - data.courses.size).toString()
                     refreshLayout.isRefreshing = false
                     appBarLayout.visibility = View.VISIBLE
                     textViewCoursesRemaining.visibility = View.VISIBLE
                     textViewCoursesCompleted.visibility = View.VISIBLE
+                    setupCourses(data)
                     setupLocalNote(data)
                     setupCommunityNote(data)
-                    textViewCourses.setOnClickListener {
-                        findNavController().navigate(
-                            HomeFragmentDirections.actionHomeFragmentToItemsFragment(COURSE_ITEM)
-                        )
-                    }
-                }
-
-                viewPagerAdapter.submitList(data.courses)
-                // Отступы между табами, должны применяться после установки элементов в view pager
-                setupTabLayout()
-
-                val title = "Ближайшее занятие\nСегодня в 12:00"
-                binding.textViewToolbarTitle.text = SpannableStringBuilder(title).apply {
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 17, 0)
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
-                }
-
-                val coursesCompleted = "Пройдено\n2 курса"
-                binding.textViewCoursesCompleted.text = SpannableStringBuilder(coursesCompleted).apply {
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-                    setSpan(
-                        FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle),
-                        9,
-                        coursesCompleted.length,
-                        0
-                    )
-                }
-
-                val coursesRemaining = "Осталось\n14 занятий"
-                binding.textViewCoursesRemaining.text = SpannableStringBuilder(coursesRemaining).apply {
-                    setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 8, 0)
-                    setSpan(
-                        FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle),
-                        9,
-                        coursesRemaining.length,
-                        0
-                    )
                 }
             }
             state.doOnError {
@@ -110,14 +93,55 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     appBarLayout.visibility = View.VISIBLE
                     textViewCoursesRemaining.visibility = View.GONE
                     textViewCoursesCompleted.visibility = View.GONE
-
-                    val title = "Ближайшее занятие\nНеизвестно"
-                    binding.textViewToolbarTitle.text = SpannableStringBuilder(title).apply {
-                        setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.FirstLineTextStyle), 0, 17, 0)
-                        setSpan(FontAwareTextAppearanceSpan(requireContext(), R.style.SecondLineTextStyle), 18, title.length, 0)
-                    }
                 }
             }
+        }
+    }
+
+    private fun setupSearch() {
+        with(binding) {
+            buttonSearch.setOnClickListener {
+                toolbar.visibility = View.GONE
+                editTextSearch.visibility = View.VISIBLE
+                editTextSearch.requestFocus()
+                val inputMethodManager  = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager .showSoftInput(editTextSearch, InputMethodManager.SHOW_IMPLICIT)
+            }
+
+            editTextSearch.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    editTextSearch.visibility = View.GONE
+                    toolbar.visibility = View.VISIBLE
+                    true
+                } else {
+                    false
+                }
+            }
+
+            editTextSearch.doAfterTextChanged {
+                viewModel.search(it.toString())
+            }
+        }
+    }
+
+    private fun setupCourses(data: HomeData) = with(binding) {
+        if (data.courses.isEmpty()) {
+            coursesLayout.visibility = View.GONE
+            viewPager.visibility = View.GONE
+            tabLayout.visibility = View.GONE
+        } else {
+            coursesLayout.visibility = View.VISIBLE
+            viewPager.visibility = View.VISIBLE
+            tabLayout.visibility = View.VISIBLE
+            textViewCourses.setOnClickListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToItemsFragment(COURSE_ITEM)
+                )
+            }
+            viewPagerAdapter.submitList(data.courses)
+            viewPager.setCurrentItem(0, false)
+            // Отступы между табами, должны применяться после установки элементов в view pager
+            setupTabLayout()
         }
     }
 
@@ -129,6 +153,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
         if (data.localNotes.isNotEmpty()) {
             val lastNote = data.localNotes[data.localNotes.size - 1]
+            binding.localNote.root.setOnClickListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToLocalNoteFragment(lastNote)
+                )
+            }
             val dateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
             val date = Date(lastNote.date)
             localLayout.visibility = View.VISIBLE
@@ -152,6 +181,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
         if (data.communityNotes.isNotEmpty()) {
             val lastNote = data.communityNotes[data.communityNotes.size - 1]
+            binding.communityNote.root.setOnClickListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToCommunityNoteFragment(lastNote)
+                )
+            }
             val author = "${lastNote.author?.name.orEmpty()} ${lastNote.author?.surname.orEmpty()}"
             val dateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
             val date = Date(lastNote.date)
@@ -161,7 +195,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 titleTextView.text = lastNote.title
                 contentTextView.text = lastNote.content.getOrNull(0)?.text
                 textViewAuthor.text = author
-                imageViewAuthor.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.logo))
+                imageViewAvatar.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.logo))
                 dateTextView.text = dateFormat.format(date)
             }
         } else {
@@ -180,7 +214,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
         TabLayoutMediator(binding.tabLayout, this) { _, _ -> }.attach()
         viewPagerAdapter.onItemClick = {
-            // TODO
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCourseFragment(it)
+            )
         }
     }
 
@@ -192,6 +228,33 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             layoutParams.setMargins(0, 0, 2.toPx(), 0)
             tab.requestLayout()
         }
+    }
+
+    private fun getDayFormatted(date: Date): String {
+        val today = Calendar.getInstance()
+        val tomorrow = Calendar.getInstance()
+        tomorrow.add(Calendar.DAY_OF_YEAR, 1)
+        val yesterday = Calendar.getInstance()
+        yesterday.add(Calendar.DAY_OF_YEAR, -1)
+
+        val dateFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
+
+        return when {
+            isSameDay(date, today.time) -> "Сегодня"
+            isSameDay(date, tomorrow.time) -> "Завтра"
+            isSameDay(date, yesterday.time) -> "Вчера"
+            else -> dateFormat.format(date)
+        }
+    }
+
+    private fun isSameDay(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance()
+        val cal2 = Calendar.getInstance()
+        cal1.time = date1
+        cal2.time = date2
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
     }
 
 }

@@ -2,13 +2,12 @@ package com.example.profnotes.presentation.ui.note
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.profnotes.presentation.ui.note.model.NoteData
+import com.example.profnotes.data.model.content.ContentData
 import javax.inject.Inject
 
-class NoteAdapter @Inject constructor() :
-    RecyclerView.Adapter<NoteViewHolder>() {
+class NoteAdapter @Inject constructor() : RecyclerView.Adapter<NoteViewHolder>() {
 
-    private val items = mutableListOf<NoteData>()
+    private val items = mutableListOf<ContentData>()
     lateinit var onTextChange: (String?, Int) -> Unit
 
     override fun getItemCount() = items.size
@@ -23,7 +22,7 @@ class NoteAdapter @Inject constructor() :
         holder.bind(getItem(position))
     }
 
-    fun submitList(newItems: List<NoteData>) {
+    fun submitList(newItems: List<ContentData>) {
         val newItem = newItems[newItems.size - 1]
         if (newItems.size > items.size) {
             items.add(newItem)

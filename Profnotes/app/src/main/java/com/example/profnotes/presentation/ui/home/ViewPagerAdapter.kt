@@ -1,7 +1,7 @@
 package com.example.profnotes.presentation.ui.home
 
 import android.view.ViewGroup
-import com.example.profnotes.data.model.Course
+import com.example.profnotes.data.model.course.Course
 import com.example.profnotes.presentation.ui.base.BaseAdapter
 import javax.inject.Inject
 

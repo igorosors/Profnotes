@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rounded_background">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/dateTextView"
@@ -22,12 +21,22 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="12 июля" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_background"
+        app:layout_constraintBottom_toBottomOf="@id/contentTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dateTextView" />
+
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:ellipsize="end"
         android:fontFamily="@font/roboto_bold"
         android:maxLines="2"

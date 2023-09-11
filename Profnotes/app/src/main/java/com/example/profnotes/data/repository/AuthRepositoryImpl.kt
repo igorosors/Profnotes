@@ -2,8 +2,7 @@ package com.example.profnotes.data.repository
 
 import com.example.profnotes.data.mapper.AuthMapper
 import com.example.profnotes.data.mapper.ErrorMapper
-import com.example.profnotes.data.model.Token
-import com.example.profnotes.data.remote.ApiService
+import com.example.profnotes.data.model.auth.Token
 import com.example.profnotes.data.remote.RefreshApiService
 import com.example.profnotes.data.remote.params.LoginParams
 import com.example.profnotes.data.remote.params.RegistrationParams

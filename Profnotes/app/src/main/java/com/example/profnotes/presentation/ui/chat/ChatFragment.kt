@@ -1,9 +1,9 @@
 package com.example.profnotes.presentation.ui.chat
 
-import androidx.fragment.app.Fragment
 import com.example.profnotes.R
+import com.example.profnotes.presentation.ui.base.BaseFragment
 
-class ChatFragment : Fragment(R.layout.fragment_chat) {
+class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
 
 }

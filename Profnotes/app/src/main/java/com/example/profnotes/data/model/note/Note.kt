@@ -1,10 +1,12 @@
-package com.example.profnotes.data.model
+package com.example.profnotes.data.model.note
 
 import android.os.Parcelable
+import com.example.profnotes.data.model.Data
+import com.example.profnotes.data.model.content.RichText
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class Note(
+data class Note(
     val id: String,
     val isLocal: Boolean = false,
     val isFavorite: Boolean = false,

@@ -44,5 +44,16 @@
     <string name="courses_label">Все курсы</string>
     <string name="show_chat_action">Показать чат</string>
     <string name="chat_state">Нет новых</string>
+    <string name="note_title">Заметка</string>
+    <string name="note_subtitle">Текст</string>
+    <string name="course_status_title">Статус:</string>
+    <string name="course_status_text">Редактировать</string>
+    <string name="course_topics_subtitle">Темы</string>
+    <string name="course_content_subtitle">Занятие</string>
+    <string name="next_lesson_title">Ближайшее занятие</string>
+    <string name="courses_completed_title">Пройдено</string>
+    <string name="courses_remaining_title">Осталось</string>
+    <string name="hint_search">Поиск</string>
+    <string name="favourites_title">Избранное</string>
 
 </resources>

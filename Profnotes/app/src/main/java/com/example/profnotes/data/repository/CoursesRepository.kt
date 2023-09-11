@@ -1,7 +1,6 @@
 package com.example.profnotes.data.repository
 
-import com.example.profnotes.data.model.Course
-import com.example.profnotes.data.model.Note
+import com.example.profnotes.data.model.course.Course
 import kotlinx.coroutines.flow.Flow
 
 interface CoursesRepository {
@@ -10,6 +9,11 @@ interface CoursesRepository {
 
     suspend fun getCoursesFlow(): Flow<List<Course>>
 
+    suspend fun getFavouriteCoursesFlow(): Flow<List<Course>>
+
     suspend fun saveCourses(courses: List<Course>)
 
+    suspend fun searchCourses(text: String): Flow<List<Course>>
+
+    suspend fun searchFavouritesCourses(text: String): Flow<List<Course>>
 }

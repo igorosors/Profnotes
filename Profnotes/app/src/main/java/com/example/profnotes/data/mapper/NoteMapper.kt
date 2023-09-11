@@ -1,10 +1,10 @@
 package com.example.profnotes.data.mapper
 
 import com.example.profnotes.data.db.entity.NoteEntity
-import com.example.profnotes.data.model.Author
-import com.example.profnotes.data.model.Comment
-import com.example.profnotes.data.model.Note
-import com.example.profnotes.data.model.RichText
+import com.example.profnotes.data.model.note.Author
+import com.example.profnotes.data.model.note.Comment
+import com.example.profnotes.data.model.note.Note
+import com.example.profnotes.data.model.content.RichText
 import com.example.profnotes.data.remote.model.ApiAuthor
 import com.example.profnotes.data.remote.model.ApiComment
 import com.example.profnotes.data.remote.model.ApiNote
@@ -31,7 +31,7 @@ class NoteMapper @Inject constructor(
     private fun fromApiToModel(richText: ApiRichText): RichText {
         return RichText(
             text = richText.text.orEmpty(),
-            image = richText.image.orEmpty()
+            url = richText.image.orEmpty()
         )
     }
 
@@ -85,7 +85,7 @@ class NoteMapper @Inject constructor(
     fun fromModelToApi(richText: RichText) : ApiRichText {
         return ApiRichText(
             text = richText.text,
-            image = richText.image
+            image = richText.url
         )
     }
 }

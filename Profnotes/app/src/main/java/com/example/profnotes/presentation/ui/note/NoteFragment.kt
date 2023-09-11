@@ -3,8 +3,6 @@ package com.example.profnotes.presentation.ui.note
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +12,7 @@ import com.example.profnotes.R
 import com.example.profnotes.data.model.LoadingState
 import com.example.profnotes.databinding.FragmentNoteBinding
 import com.example.profnotes.presentation.extensions.applyTopInsets
-import com.example.profnotes.presentation.ui.views.NoteItemDecoration
+import com.example.profnotes.presentation.ui.views.DataItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -92,14 +90,13 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                     binding.progressBarSave.visibility = View.GONE
                     // TODO error dialog
                 }
-
             }
         }
     }
 
     private fun setupRecycler() = with(binding) {
         recyclerView.adapter = noteAdapter
-        recyclerView.addItemDecoration(NoteItemDecoration())
+        recyclerView.addItemDecoration(DataItemDecoration())
         noteAdapter.onTextChange = { text, position ->
             viewModel.updateItem(text, position)
         }

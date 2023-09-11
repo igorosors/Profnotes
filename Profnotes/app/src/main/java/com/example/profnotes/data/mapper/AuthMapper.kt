@@ -1,6 +1,6 @@
 package com.example.profnotes.data.mapper
 
-import com.example.profnotes.data.model.Token
+import com.example.profnotes.data.model.auth.Token
 import com.example.profnotes.data.remote.model.ApiToken
 import javax.inject.Inject
 

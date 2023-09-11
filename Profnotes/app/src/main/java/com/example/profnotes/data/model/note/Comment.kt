@@ -1,6 +1,7 @@
-package com.example.profnotes.data.model
+package com.example.profnotes.data.model.note
 
 import android.os.Parcelable
+import com.example.profnotes.data.model.note.Author
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

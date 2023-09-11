@@ -1,4 +1,4 @@
-package com.example.profnotes.presentation.ui.note.model
+package com.example.profnotes.data.model.content
 
 import android.graphics.Bitmap
 

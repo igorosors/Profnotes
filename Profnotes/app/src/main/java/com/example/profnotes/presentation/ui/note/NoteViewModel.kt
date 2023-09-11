@@ -11,12 +11,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.profnotes.data.model.LoadingState
-import com.example.profnotes.data.model.Note
-import com.example.profnotes.data.model.RichText
+import com.example.profnotes.data.model.note.Note
+import com.example.profnotes.data.model.content.RichText
 import com.example.profnotes.data.repository.NotesRepository
 import com.example.profnotes.presentation.ui.note.NoteFragment.Companion.TYPE_LOCAL
-import com.example.profnotes.presentation.ui.note.model.Image
-import com.example.profnotes.presentation.ui.note.model.NoteData
+import com.example.profnotes.data.model.content.Image
+import com.example.profnotes.data.model.content.ContentData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -27,8 +27,8 @@ class NoteViewModel @Inject constructor(
     private val notesRepository: NotesRepository
 ) : ViewModel() {
 
-    private val _noteLiveData = MutableLiveData<List<NoteData>>()
-    val noteLiveData: LiveData<List<NoteData>> = _noteLiveData
+    private val _noteLiveData = MutableLiveData<List<ContentData>>()
+    val noteLiveData: LiveData<List<ContentData>> = _noteLiveData
 
     private val _imageLiveData = MutableLiveData<LoadingState<Image>>()
     val imageLiveData: LiveData<LoadingState<Image>> = _imageLiveData
@@ -37,15 +37,15 @@ class NoteViewModel @Inject constructor(
     val saveLiveData: LiveData<LoadingState<Unit>> = _saveLiveData
 
     fun addText() {
-        val dataList = mutableListOf<NoteData>().apply {
+        val dataList = mutableListOf<ContentData>().apply {
             addAll(_noteLiveData.value.orEmpty())
         }
-        dataList.add(NoteData("", null, null))
+        dataList.add(ContentData("", null, null))
         _noteLiveData.postValue(dataList)
     }
 
     fun addImage(image: Image) {
-        val dataList = mutableListOf<NoteData>().apply {
+        val dataList = mutableListOf<ContentData>().apply {
             addAll(_noteLiveData.value.orEmpty())
         }
         val position = dataList.size - 1
@@ -55,13 +55,13 @@ class NoteViewModel @Inject constructor(
             dataList[position] = dataList[position].copy(url = image.url, bitmap = image.bitmap)
             _noteLiveData.postValue(dataList)
         } else {
-            dataList.add(NoteData(null, image.url, image.bitmap))
+            dataList.add(ContentData(null, image.url, image.bitmap))
             _noteLiveData.postValue(dataList)
         }
     }
 
     fun updateItem(newText: String?, position: Int) {
-        val dataList = mutableListOf<NoteData>().apply {
+        val dataList = mutableListOf<ContentData>().apply {
             addAll(_noteLiveData.value.orEmpty())
         }
         if (dataList[position].text != newText) {
@@ -82,7 +82,6 @@ class NoteViewModel @Inject constructor(
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
                     _imageLiveData.postValue(LoadingState.Error(Exception()))
                 }
 
@@ -133,7 +132,7 @@ class NoteViewModel @Inject constructor(
         return noteData.map {
             RichText(
                 text = it.text,
-                image = it.url
+                url = it.url
             )
         }
     }

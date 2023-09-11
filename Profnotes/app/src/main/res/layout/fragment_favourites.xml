@@ -1,10 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.favourites.FavouritesFragment">
+    android:orientation="vertical">
 
-</LinearLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        app:liftOnScrollTargetViewId="@id/scrollView">
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="12dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/dark_gray_20_transparent"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="12dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColor="@color/dark_gray"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/favourites_title">
+
+            <ImageButton
+                android:id="@+id/buttonSearch"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="@color/dark_gray_20_transparent"
+                android:src="@drawable/ic_search" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.example.profnotes.presentation.ui.views.StateViewFlipper
+        android:id="@+id/stateViewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/coursesLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/left_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/last_courses_label"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/textViewCourses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:background="@drawable/right_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/all_items_label"
+                            android:textColor="@color/gray" />
+                    </LinearLayout>
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@null"
+                        app:tabBackground="@drawable/tab_selector"
+                        app:tabIndicatorHeight="0dp" />
+
+                    <LinearLayout
+                        android:id="@+id/localLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/left_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/local_notes_label"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/textViewLocalNotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:background="@drawable/right_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/all_items_label"
+                            android:textColor="@color/gray" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/localNote"
+                        layout="@layout/item_local_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp" />
+
+                    <LinearLayout
+                        android:id="@+id/communityLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/left_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/community_notes_label"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/textViewCommunityNotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:background="@drawable/right_rounded_background"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="8dp"
+                            android:text="@string/all_items_label"
+                            android:textColor="@color/gray" />
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/communityNote"
+                        layout="@layout/item_community_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.example.profnotes.presentation.ui.views.StateViewFlipper>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

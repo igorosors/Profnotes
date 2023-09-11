@@ -27,5 +27,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
+
+    @Binds
+    abstract fun provideFavouriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
 }
 

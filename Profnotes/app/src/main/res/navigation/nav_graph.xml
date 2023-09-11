@@ -13,6 +13,15 @@
         <action
             android:id="@+id/action_homeFragment_to_itemsFragment"
             app:destination="@id/itemsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_localNoteFragment"
+            app:destination="@id/localNoteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_communityNoteFragment"
+            app:destination="@id/communityNoteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_courseFragment"
+            app:destination="@id/courseFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
@@ -74,6 +83,42 @@
         <argument
             android:name="item_type"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_itemsFragment_to_localNoteFragment"
+            app:destination="@id/localNoteFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_communityNoteFragment"
+            app:destination="@id/communityNoteFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_courseFragment"
+            app:destination="@id/courseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/localNoteFragment"
+        android:name="com.example.profnotes.presentation.ui.detail.note.local.LocalNoteFragment"
+        android:label="LocalNoteFragment"
+        tools:layout="@layout/fragment_local_note">
+        <argument
+            android:name="note"
+            app:argType="com.example.profnotes.data.model.note.Note" />
+    </fragment>
+    <fragment
+        android:id="@+id/communityNoteFragment"
+        android:name="com.example.profnotes.presentation.ui.detail.note.community.CommunityNoteFragment"
+        android:label="CommunityNoteFragment"
+        tools:layout="@layout/fragment_community_note">
+        <argument
+            android:name="note"
+            app:argType="com.example.profnotes.data.model.note.Note" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseFragment"
+        android:name="com.example.profnotes.presentation.ui.detail.course.CourseFragment"
+        android:label="CourseFragment"
+        tools:layout="@layout/fragment_course" >
+        <argument
+            android:name="course"
+            app:argType="com.example.profnotes.data.model.course.Course" />
     </fragment>
 
 </navigation>

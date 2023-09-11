@@ -1,6 +1,7 @@
 package com.example.profnotes.presentation.extensions
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.core.graphics.Insets
 import androidx.core.view.*
@@ -20,8 +21,10 @@ fun View.doOnApplyWindowInsets(block: (View, WindowInsetsCompat, Rect) -> Window
  * При этом помечает, что обработал bottom inset
  */
 fun View.applyBottomInsets() {
+    Log.d("apply", "bottom inset")
     this.doOnApplyWindowInsets { view, insets, paddings ->
         val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        Log.d("get insets", windowInsets.bottom.toString())
         view.updatePadding(
             bottom = windowInsets.bottom + paddings.bottom,
         )
